@@ -1,7 +1,8 @@
 import css from './ContactItem.module.css';
 import Button from '../Button/Button';
 import { useDispatch } from 'react-redux';
-import { contactRemoved } from '@/redux/contactsSlice';
+import { deleteContact } from '@/redux/contactsOps';
+import type { AppDispatch } from '@/redux/store';
 
 export default function ContactItem({
   name,
@@ -12,15 +13,17 @@ export default function ContactItem({
   number: string;
   contactKey: string;
 }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const handleDelete = () => {
-    dispatch(contactRemoved(contactKey));
+    dispatch(deleteContact(contactKey));
   };
 
   return (
     <li className={css.contactsListItem}>
-      {name} : {number}
-      <Button onClick={handleDelete}>delete</Button>
+      <p>
+        {name} : {number}
+      </p>
+      <Button onClick={handleDelete}>x</Button>
     </li>
   );
 }

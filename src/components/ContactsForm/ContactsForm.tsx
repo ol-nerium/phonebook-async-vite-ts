@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 
 import css from './ContactsForm.module.css';
 import Button from '@/components/Button/Button';
 
-// import { contactAdded } from '@/redux/contactsSlice';
 import { addContact } from '@/redux/contactsOps';
+import type { AppDispatch } from '@/redux/store';
 
 function ContactsForm() {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const [id, setId] = useState(nanoid());
+  const [name, setName] = useState<string>('');
+  const [number, setNumber] = useState<string>('');
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const name: string = e.currentTarget.name;
@@ -28,14 +26,13 @@ function ContactsForm() {
       alert('fill all fields');
       return;
     }
-    dispatch(addContact({ name, number, id }));
+    dispatch(addContact({ name, number }));
     resetState();
   };
 
   const resetState = () => {
     setName('');
     setNumber('');
-    setId(nanoid());
   };
 
   return (
@@ -60,7 +57,7 @@ function ContactsForm() {
         className={css.input}
         type="tel"
         placeholder="123-45-678"
-        // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+        pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
         name="number"
         id="number"
         autoComplete="off"

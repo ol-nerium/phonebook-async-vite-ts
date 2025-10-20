@@ -6,8 +6,11 @@ import filterReducer from './filterSlice';
 const store = configureStore({
   reducer: {
     contacts: contactsReducer,
-    filters: filterReducer,
+    filter: filterReducer,
   },
 });
 
 export default store;
+
+export type AppDispatch = typeof store.dispatch;
+// console.log(typeof store.dispatch);

@@ -8,7 +8,7 @@ interface contactType {
 interface contactsType {
   items: contactType[];
   loading: boolean;
-  error: null | string;
+  error: null | string | unknown;
 }
 
 interface filterType {
@@ -17,12 +17,7 @@ interface filterType {
 
 interface stateType {
   contacts: contactsType;
-  filters: filterType;
+  filter: filterType;
 }
 
-interface RootState {
-  contacts: { items: contactType[] };
-  filters: { value: string };
-}
-
-export type { contactType, stateType, contactsType, filterType, RootState };
+export type { contactType, stateType, contactsType, filterType };

@@ -8,9 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from './redux/contactsOps';
 import { useEffect } from 'react';
 
+import { selectLoading, selectError } from '@/redux/contactsSlice';
+import type { AppDispatch } from './redux/store';
+
 export default function App() {
-  const dispatch = useDispatch();
-  const { items, loading, error } = useSelector(state => state.contacts);
+  const dispatch = useDispatch<AppDispatch>();
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
@@ -19,9 +23,9 @@ export default function App() {
     <Container>
       <ContactsForm />
       <ContactFilter />
-      {loading || <ContactsList />}
+      {<ContactsList />}
       {loading && !error && <b>Request in progress...</b>}
-      <p>{error}</p>
+      <p>{error as React.ReactNode}</p>
     </Container>
   );
 }
