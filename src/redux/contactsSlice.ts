@@ -1,6 +1,7 @@
-import type { contactsType, stateType } from '@/utils/types';
+import type { contactsType, contactType, stateType } from '@/utils/types';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from '@/redux/contactsOps';
+import { selectNameFilter } from './filterSlice';
 
 const initialState: contactsType = {
   items: [],
@@ -58,18 +59,19 @@ const contactsSlice = createSlice({
 const selectContacts = (state: stateType) => state.contacts.items;
 const selectLoading = (state: stateType) => state.contacts.loading;
 const selectError = (state: stateType) => state.contacts.error;
-// const selectFilteredContacts = createSelector(
-//   [contacts, filterValue],
-//   (contacts, filterValue) => {
-//     if (!filterValue.trim()) return contacts;
-//     const normalizeFilter = filterValue.toLowerCase().trim();
 
-//     return contacts.filter((item: contactType) => {
-//       const normalizeName = item.name.toLowerCase();
-//       return normalizeName.includes(normalizeFilter);
-//     });
-//   }
-// );
+const selectFilteredContacts = createSelector(
+  [selectContacts, selectNameFilter],
+  (contacts, filterValue) => {
+    if (!filterValue.trim()) return contacts;
+    const normalizeFilter = filterValue.toLowerCase().trim();
+
+    return contacts.filter((item: contactType) => {
+      const normalizeName = item.name.toLowerCase();
+      return normalizeName.includes(normalizeFilter);
+    });
+  }
+);
 
 export default contactsSlice.reducer;
-export { selectContacts, selectLoading, selectError };
+export { selectContacts, selectLoading, selectError, selectFilteredContacts };
